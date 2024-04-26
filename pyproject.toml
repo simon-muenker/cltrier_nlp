@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "nlp-course-trier-2024"
+version = "0.1.0"
+description = ""
+authors = ["Simon Münker <muenker@uni-trier.de>"]
+readme = "README.md"
+license = "Apache-2.0"
+repository = "https://github.com/python-poetry/poetry"
+packages = [
+    { include = "*", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+nltk = "^3.8.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+
+[tool.poetry.scripts]
+main = "src.__main__:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

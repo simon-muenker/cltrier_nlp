@@ -5,7 +5,8 @@ import collections
 
 from nltk.corpus import stopwords
 
-corpus: str = open('material/voltair-candide.txt').read()
+corpus: str = open('data/voltair-candide.txt').read()
+
 
 class Sentence:
 
@@ -16,10 +17,10 @@ class Sentence:
     def tokens(self) -> typing.List[str]:
         return self.text.lower().split()
 
-
     @property
     def hashtags(self) -> typing.List[str]:
         return re.sub(r'#\S+', '<hashtag>', self.text)
+
 
 class Corpus:
 
@@ -28,21 +29,17 @@ class Corpus:
         self.sentences: typing.List[Sentence] = [
             Sentence(sent) for sent in corpus.split('.')
         ]
-    
+
     @property
     def tokens(self) -> typing.List[typing.List[str]]:
         return [sent.tokens for sent in self.sentences]
-    
-    def calc_freq(self) -> collections.Counter: 
+
+    def calc_freq(self) -> collections.Counter:
         _stopwords = stopwords.words('english')
 
         return collections.Counter([
-            tok 
-            for sent in self.sentences 
+            tok
+            for sent in self.sentences
             for tok in sent.tokens
             if tok not in _stopwords
         ])
-
-mySent = Corpus(corpus)
-# print(mySent.text)
-print(mySent.calc_freq().most_common(40))
