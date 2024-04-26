@@ -1,3 +1,7 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 name = "nlp-course-trier-2024"
 version = "0.1.0"
@@ -13,6 +17,9 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.11"
 nltk = "^3.8.1"
+pydantic = "^2.7.1"
+langdetect = "^1.0.9"
+langcodes = "^3.4.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
@@ -20,6 +27,9 @@ pytest = "^8.1.1"
 [tool.poetry.scripts]
 main = "src.__main__:main"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "DEBUG"
+testpaths = [
+    "tests",
+]
