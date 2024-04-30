@@ -33,16 +33,11 @@ class TransformerEncoder:
 
         logging.info(self)
 
-    @torch.no_grad()
-    def __call__(
-        self, batch: typing.List[str], return_unpad: bool = True
-    ) -> typing.Dict:
+    def __call__(self, batch: typing.List[str], return_unpad: bool = True) -> typing.Dict:
         token, encoding = self.tokenize(batch)
         embeds: torch.Tensor = self.forward(
             torch.tensor(encoding['input_ids'], device=util.get_device()).long(),
-            torch.tensor(
-                encoding['attention_mask'], device=util.get_device()
-            ).short(),
+            torch.tensor(encoding['attention_mask'], device=util.get_device()).short(),
         )
 
         def unpad_output(output: torch.tensor, mask: torch.tensor) -> torch.tensor:
@@ -71,14 +66,10 @@ class TransformerEncoder:
 
         return [self.ids_to_tokens(ids) for ids in encoding['input_ids']], encoding
 
-    @torch.no_grad()
     def forward(self, ids: torch.Tensor, masks: torch.Tensor) -> torch.Tensor:
         return (
             torch.stack(
-                [
-                    self.model.forward(ids, masks).hidden_states[i]
-                    for i in self.args.layers
-                ]
+                [self.model.forward(ids, masks).hidden_states[i] for i in self.args.layers]
             )
             .sum(0)
             .squeeze()

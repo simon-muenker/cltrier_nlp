@@ -45,7 +45,7 @@ testpaths = [
 
 [tool.black]
 skip-string-normalization = true
-line-length = 86
+line-length = 96
 
 [tool.ruff]
-line-length = 86
+line-length = 96

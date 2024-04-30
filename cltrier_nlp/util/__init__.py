@@ -16,12 +16,7 @@ def get_device() -> str:
 def calculate_model_memory_usage(model: torch.nn.Module) -> str:
     usage_in_byte: int = sum(
         [
-            sum(
-                [
-                    param.nelement() * param.element_size()
-                    for param in model.parameters()
-                ]
-            ),
+            sum([param.nelement() * param.element_size() for param in model.parameters()]),
             sum([buf.nelement() * buf.element_size() for buf in model.buffers()]),
         ]
     )
@@ -48,11 +43,7 @@ def detect_language(content: str) -> str:
         warnings.filterwarnings("ignore", category=DeprecationWarning)
 
         try:
-            return (
-                langcodes.Language.get(langdetect.detect(content))
-                .display_name()
-                .lower()
-            )
+            return langcodes.Language.get(langdetect.detect(content)).display_name().lower()
 
         except langdetect.lang_detect_exception.LangDetectException:
             return "unknown"

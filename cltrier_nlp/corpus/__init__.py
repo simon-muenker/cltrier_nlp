@@ -89,9 +89,7 @@ class Corpus(pydantic.BaseModel):
     def create_subset_by_language(self, language: str) -> "Corpus":
         return Corpus(
             sentences=(
-                sentences := [
-                    sent for sent in self.sentences if sent.language == language
-                ]
+                sentences := [sent for sent in self.sentences if sent.language == language]
             ),
             raw=" ".join([sent.content for sent in sentences]),
         )
