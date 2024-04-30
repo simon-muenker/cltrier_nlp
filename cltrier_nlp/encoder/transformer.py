@@ -41,17 +41,17 @@ class TransformerEncoder(torch.nn.Module):
     def __call__(self, batch: typing.List[str], remove_padding: bool = True) -> typing.Dict:
         encoding, token = self.tokenize(batch)
         embeds: torch.Tensor = self.forward(
-            torch.tensor(encoding['input_ids'], device=util.get_device()).long(),
-            torch.tensor(encoding['attention_mask'], device=util.get_device()).short(),
+            torch.tensor(encoding["input_ids"], device=util.get_device()).long(),
+            torch.tensor(encoding["attention_mask"], device=util.get_device()).short(),
         )
 
         return {
             label: (
-                [v[:n] for v, n in zip(value, torch.tensor(encoding['attention_mask']).sum(1))]
+                [v[:n] for v, n in zip(value, torch.tensor(encoding["attention_mask"]).sum(1))]
                 if remove_padding
                 else value
             )
-            for label, value in [('embeds', embeds), ('token', token)]
+            for label, value in [("embeds", embeds), ("token", token)]
         } | encoding
 
     def tokenize(
@@ -59,7 +59,7 @@ class TransformerEncoder(torch.nn.Module):
     ) -> typing.Tuple[typing.Dict, typing.List[typing.List[str]]]:
         return (
             encoding := self.tokenizer(batch, padding=padding, **self.args.tokenizer),
-            [self.ids_to_tokens(ids) for ids in encoding['input_ids']],
+            [self.ids_to_tokens(ids) for ids in encoding["input_ids"]],
         )
 
     def forward(self, ids: torch.Tensor, masks: torch.Tensor) -> torch.Tensor:
@@ -79,13 +79,13 @@ class TransformerEncoder(torch.nn.Module):
 
     @property
     def dim(self) -> int:
-        return self.model.config.to_dict()['hidden_size']
+        return self.model.config.to_dict()["hidden_size"]
 
     def __len__(self) -> int:
-        return self.model.config.to_dict()['vocab_size']
+        return self.model.config.to_dict()["vocab_size"]
 
     def __repr__(self) -> str:
         return (
             f'> Encoder Name: {self.model.config.__dict__["_name_or_path"]}\n'
-            f'  Memory Usage: {util.calculate_model_memory_usage(self.model)}'
+            f"  Memory Usage: {util.calculate_model_memory_usage(self.model)}"
         )

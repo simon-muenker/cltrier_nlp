@@ -14,7 +14,7 @@ __all__ = [Map]
 
 
 def get_device() -> str:
-    return 'cuda' if torch.cuda.is_available() else 'cpu'
+    return "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def calculate_model_memory_usage(model: torch.nn.Module) -> str:
@@ -25,7 +25,7 @@ def calculate_model_memory_usage(model: torch.nn.Module) -> str:
         ]
     )
 
-    return f'{usage_in_byte / (1024.0 * 1024.0):2.4f} MB'
+    return f"{usage_in_byte / (1024.0 * 1024.0):2.4f} MB"
 
 
 def timeit(func: typing.Callable):
@@ -33,7 +33,7 @@ def timeit(func: typing.Callable):
     def wrap(*args, **kwargs) -> any:
         start = time.time()
         result = func(*args, **kwargs)
-        logging.info(f'> f({func.__name__}) took: {time.time() - start:2.4f} sec')
+        logging.info(f"> f({func.__name__}) took: {time.time() - start:2.4f} sec")
 
         return result
 
