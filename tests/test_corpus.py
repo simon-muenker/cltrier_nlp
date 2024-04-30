@@ -3,7 +3,7 @@ import logging
 
 import nltk
 
-import corpus
+from cltrier_nlp import corpus
 
 nltk.download('gutenberg')
 

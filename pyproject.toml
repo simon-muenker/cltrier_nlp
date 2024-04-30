@@ -3,16 +3,14 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "nlp-course-trier-2024"
+name = "cltrier_nlp"
 version = "0.1.0"
 description = ""
 authors = ["Simon Münker <muenker@uni-trier.de>"]
 readme = "README.md"
 license = "Apache-2.0"
 repository = "https://github.com/python-poetry/poetry"
-packages = [
-    { include = "*", from = "src" }
-]
+packages = [{include = "cltrier_nlp"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -23,9 +21,6 @@ langcodes = "^3.4.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
-
-[tool.poetry.scripts]
-main = "src.__main__:main"
 
 [tool.pytest.ini_options]
 log_cli = true

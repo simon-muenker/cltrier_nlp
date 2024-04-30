@@ -1,5 +1,6 @@
 import typing
-import corpus
+
+from cltrier_nlp import corpus
 
 SAMPLES: typing.List[typing.Dict[str, str]] = [
     {'lang': 'german', 'content': 'Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.'},
