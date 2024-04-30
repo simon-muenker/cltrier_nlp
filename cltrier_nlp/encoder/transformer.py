@@ -23,6 +23,19 @@ class TransformerEncoderArgs(pydantic.BaseModel):
     )
 
 
+class TransformerEncoderBatch(pydantic.BaseModel):
+    embeds: typing.List[torch.Tensor]
+    token: typing.List[typing.List[str]]
+
+    input_ids: typing.List[typing.List[int]]
+    token_type_ids: typing.List[typing.List[int]]
+
+    attention_mask: typing.List[typing.List[int]]
+    offset_mapping: typing.List[typing.List[typing.Tuple[int, int]]]
+
+    model_config = pydantic.ConfigDict(arbitrary_types_allowed=True)
+
+
 class TransformerEncoder(torch.nn.Module):
 
     @util.timeit
@@ -38,21 +51,29 @@ class TransformerEncoder(torch.nn.Module):
 
         logging.info(self)
 
-    def __call__(self, batch: typing.List[str], remove_padding: bool = True) -> typing.Dict:
+    def __call__(
+        self, batch: typing.List[str], remove_padding: bool = True
+    ) -> TransformerEncoderBatch:
         encoding, token = self.tokenize(batch)
         embeds: torch.Tensor = self.forward(
             torch.tensor(encoding["input_ids"], device=util.get_device()).long(),
             torch.tensor(encoding["attention_mask"], device=util.get_device()).short(),
         )
 
-        return {
-            label: (
-                [v[:n] for v, n in zip(value, torch.tensor(encoding["attention_mask"]).sum(1))]
-                if remove_padding
-                else value
-            )
-            for label, value in [("embeds", embeds), ("token", token)]
-        } | encoding
+        return TransformerEncoderBatch(
+            **{
+                label: (
+                    [
+                        v[:n]
+                        for v, n in zip(value, torch.tensor(encoding["attention_mask"]).sum(1))
+                    ]
+                    if remove_padding
+                    else value
+                )
+                for label, value in [("embeds", embeds), ("token", token)]
+            }
+            | encoding
+        )
 
     def tokenize(
         self, batch: typing.List[str], padding: bool = True

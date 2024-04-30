@@ -2,9 +2,11 @@ import typing
 
 import torch
 
+from . import transformer
+
 POOL_FORM_FNS: typing.Dict[str, typing.Callable] = {
     # sentence based
-    "cls": lambda x: x[0],
+    "sent_cls": lambda x: x[0],
     "sent_mean": lambda x: torch.mean(x[1:-1], dim=0),
     # word based, positional extraction
     "subword_first": lambda x: x[0],
@@ -16,7 +18,7 @@ POOL_FORM_FNS: typing.Dict[str, typing.Callable] = {
 }
 
 POOL_FORM_TYPE = typing.Literal[
-    "cls",
+    "sent_cls",
     "sent_mean",
     "subword_first",
     "subword_last",
@@ -28,24 +30,26 @@ POOL_FORM_TYPE = typing.Literal[
 
 class TransformerEncoderPooler:
 
-    @staticmethod
-    def pool_batch(encoded_batch: typing.Dict, form: POOL_FORM_TYPE = "cls"):
-        return torch.stack(
-            [
-                POOL_FORM_FNS[form](embed)
-                for embed in (
-                    encoded_batch["embeds"]
-                    if form in ["cls", "sent_mean"]
-                    else TransformerEncoderPooler._extract_embed_spans(encoded_batch)
-                )
-            ]
-        )
+    def __call__(
+        self,
+        encodes: transformer.TransformerEncoderBatch,
+        extract_spans: typing.List[typing.Tuple[int, int]] = None,
+        form: POOL_FORM_TYPE = "sent_cls",
+    ) -> typing.List[torch.Tensor]:
+        return [
+            POOL_FORM_FNS[form](embed)
+            for embed in (
+                encodes.embeds
+                if form in ["sent_cls", "sent_mean"]
+                else TransformerEncoderPooler._extract_embed_spans(encodes, extract_spans)
+            )
+        ]
 
     @staticmethod
-    def _extract_embed_spans(encoded_batch: typing.Dict):
-        for span, mapping, embeds in zip(
-            encoded_batch["span_idx"], encoded_batch["offset_mapping"], encoded_batch["embeds"]
-        ):
+    def _extract_embed_spans(
+        encodes: transformer.TransformerEncoderBatch, extract_spans
+    ) -> typing.Generator:
+        for span, mapping, embeds in zip(extract_spans, encodes.offset_mapping, encodes.embeds):
             emb_span_idx = TransformerEncoderPooler._get_token_idx(
                 mapping[1 : embeds.size(dim=0) - 1], span
             )
