@@ -10,7 +10,12 @@ authors = ["Simon Münker <muenker@uni-trier.de>"]
 readme = "README.md"
 license = "Apache-2.0"
 repository = "https://github.com/simon-muenker/cltrier_nlp"
-packages = [{include = "cltrier_nlp"}]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Text Processing"
+]
+packages = [{ include = "cltrier_nlp" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -25,8 +30,8 @@ jupyter = "^1.0.0"
 pandas = "^2.2.2"
 matplotlib = "^3.8.4"
 seaborn = "^0.13.2"
-black = "^24.4.2"
 pre-commit = "^3.7.0"
+black = "^24.4.2"
 ruff = "^0.4.2"
 
 [tool.pytest.ini_options]
@@ -41,5 +46,4 @@ skip-string-normalization = true
 line-length = 86
 
 [tool.ruff]
-
 line-length = 86
