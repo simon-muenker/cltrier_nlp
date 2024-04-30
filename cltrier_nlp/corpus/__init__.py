@@ -1,6 +1,7 @@
 import collections
 import string
 import typing
+import pandas
 
 import nltk
 import pydantic
@@ -100,6 +101,11 @@ class Corpus(pydantic.BaseModel):
     @classmethod
     def from_txt(cls, path: str) -> "Corpus":
         return cls(raw=open(path).read())
+
+    def to_df(self) -> pandas.DataFrame:
+        return pandas.DataFrame(
+            [sent.to_row() for sent in self.sentences],
+        )
 
     def __len__(self) -> int:
         return len(self.sentences)

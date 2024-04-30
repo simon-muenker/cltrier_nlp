@@ -2,6 +2,7 @@ import collections
 import logging
 
 import nltk
+import pandas
 
 from cltrier_nlp import corpus
 
@@ -27,17 +28,11 @@ def test_languages():
 
     assert isinstance(lang_count, collections.Counter)
 
-    # TODO
-    # find test cases
-
 
 def test_languages_subset():
     subset: corpus.Corpus = CORPUS.create_subset_by_language("german")
 
     assert isinstance(subset, corpus.Corpus)
-
-    # TODO
-    # find test cases
 
 
 def test_tokens():
@@ -46,12 +41,14 @@ def test_tokens():
 
     assert isinstance(token_count, collections.Counter)
 
-    # TODO
-    # find test cases
-
 
 def test_ngrams():
     assert True
 
     # TODO
     # find test cases
+
+
+def test_to_df():
+    assert isinstance(CORPUS.to_df(), pandas.DataFrame)
+    assert len(CORPUS.to_df()) == len(CORPUS)

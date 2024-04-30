@@ -1,6 +1,7 @@
 import typing
 
 import nltk
+import pandas
 import pydantic
 
 from .. import util
@@ -15,6 +16,8 @@ class Sentence(pydantic.BaseModel):
     tokens: typing.List[str] = pydantic.Field(default_factory=lambda: [])
 
     def model_post_init(self, __context) -> None:
+
+        self.content = self.content.replace("\n", " ")
 
         if not self.language:
             self.language = util.detect_language(self.content)
@@ -51,6 +54,9 @@ class Sentence(pydantic.BaseModel):
 
         except LookupError:
             return nltk.tokenize.word_tokenize(self.content.lower())
+
+    def to_row(self) -> pandas.Series:
+        return pandas.Series(self.model_dump())
 
     def __len__(self) -> int:
         return len(self.tokens)

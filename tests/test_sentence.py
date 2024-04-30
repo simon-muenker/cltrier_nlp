@@ -1,5 +1,7 @@
 import typing
 
+import pandas
+
 from cltrier_nlp import corpus
 
 SAMPLES: typing.List[typing.Dict[str, str]] = [
@@ -38,3 +40,9 @@ def test_ngrams():
         assert all([isinstance(gr, typing.Tuple) for gr in grams])
         assert all([isinstance(tok, str) for gr in grams for tok in gr])
         assert all([len(gr) == n for gr in grams])
+
+
+def test_to_row():
+    sent = corpus.Sentence(content=SAMPLES[0]["content"])
+
+    assert isinstance(sent.to_row(), pandas.Series)
