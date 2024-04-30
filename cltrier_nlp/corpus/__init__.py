@@ -1,6 +1,6 @@
 import collections
-import typing
 import string
+import typing
 
 import nltk
 import pydantic
@@ -41,6 +41,26 @@ class Corpus(pydantic.BaseModel):
             for tok in sent.tokens
         ]
 
+    @pydantic.computed_field
+    @property
+    def bigrams(self) -> typing.List[typing.Tuple[str, ...]]:
+        return self.generate_ngrams(2)
+
+    @pydantic.computed_field
+    @property
+    def trigrams(self) -> typing.List[typing.Tuple[str, ...]]:
+        return self.generate_ngrams(3)
+
+    @pydantic.computed_field
+    @property
+    def tetragram(self) -> typing.List[typing.Tuple[str, ...]]:
+        return self.generate_ngrams(4)
+
+    @pydantic.computed_field
+    @property
+    def pentagram(self) -> typing.List[typing.Tuple[str, ...]]:
+        return self.generate_ngrams(5)
+
     def count_languages(self) -> collections.Counter:
         return collections.Counter([sent.language for sent in self.sentences])
 
@@ -60,6 +80,9 @@ class Corpus(pydantic.BaseModel):
             ]
         ])
 
+    def count_ngrams(self, n: int) -> collections.Counter:
+        return collections.Counter(self.generate_ngrams(n))
+
     def create_subset_by_language(self, language: str) -> 'Corpus':
         return Corpus(
             sentences=(
@@ -72,6 +95,13 @@ class Corpus(pydantic.BaseModel):
                 sent.content for sent in sentences
             ])
         )
+
+    def generate_ngrams(self, n: int) -> typing.List[typing.Tuple[str, ...]]:
+        return [
+            ngram
+            for sent in self.sentences
+            for ngram in sent.generate_ngrams(n)
+        ]
 
     @classmethod
     def from_txt(cls, path: str) -> 'Corpus':

@@ -8,6 +8,13 @@ SAMPLES: typing.List[typing.Dict[str, str]] = [
 ]
 
 
+def test_languages():
+    for sample in SAMPLES:
+        sent = corpus.Sentence(content=sample['content'])
+
+        assert sent.language == sample['lang']
+
+
 def test_tokenization():
     sent = corpus.Sentence(content=SAMPLES[0]['content'])
 
@@ -15,9 +22,17 @@ def test_tokenization():
     assert all([isinstance(tok, str) for tok in sent.tokens])
 
 
-def test_languages():
+def test_ngrams():
+    sent = corpus.Sentence(content=SAMPLES[0]['content'])
 
-    for sample in SAMPLES:
-        sent = corpus.Sentence(content=sample['content'])
-
-        assert sent.language == sample['lang']
+    for n, grams in enumerate(
+            [
+                sent.bigrams, sent.trigrams,
+                sent.tetragram, sent.pentagram
+            ],
+            start=2
+    ):
+        assert isinstance(grams, typing.List)
+        assert all([isinstance(gr, typing.Tuple) for gr in grams])
+        assert all([isinstance(tok, str) for gr in grams for tok in gr])
+        assert all([len(gr) == n for gr in grams])

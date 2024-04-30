@@ -48,3 +48,10 @@ def test_tokens():
 
     # TODO
     # find test cases
+
+
+def test_ngrams():
+    assert True
+
+    # TODO
+    # find test cases
