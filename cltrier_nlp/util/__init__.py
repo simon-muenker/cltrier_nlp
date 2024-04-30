@@ -8,6 +8,10 @@ import langcodes
 import langdetect
 import torch
 
+from .map import Map
+
+__all__ = [Map]
+
 
 def get_device() -> str:
     return 'cuda' if torch.cuda.is_available() else 'cpu'
