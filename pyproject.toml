@@ -21,6 +21,10 @@ langcodes = "^3.4.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
+jupyter = "^1.0.0"
+pandas = "^2.2.2"
+matplotlib = "^3.8.4"
+seaborn = "^0.13.2"
 
 [tool.pytest.ini_options]
 log_cli = true
