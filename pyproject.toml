@@ -4,12 +4,12 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "cltrier_nlp"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Simon Münker <muenker@uni-trier.de>"]
 readme = "README.md"
 license = "Apache-2.0"
-repository = "https://github.com/python-poetry/poetry"
+repository = "https://github.com/simon-muenker/cltrier_nlp"
 packages = [{include = "cltrier_nlp"}]
 
 [tool.poetry.dependencies]
