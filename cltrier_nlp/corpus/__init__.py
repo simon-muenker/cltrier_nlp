@@ -7,14 +7,14 @@ import nltk
 import pydantic
 
 from .. import util
+from .. import functional
 from .sentence import Sentence
-
-nltk.download("punkt")
-nltk.download("stopwords")
 
 
 class CorpusArgs(pydantic.BaseModel):
-    exclude_from_count: typing.List[str] = ["’", "“", "”"]
+    token_count_exclude: typing.List[str] = pydantic.Field(
+        default_factory=lambda: ["’", "“", "”", *string.punctuation]
+    )
 
 
 class Corpus(pydantic.BaseModel):
@@ -61,28 +61,12 @@ class Corpus(pydantic.BaseModel):
         return collections.Counter([sent.language for sent in self.sentences])
 
     def count_tokens(self) -> collections.Counter:
-        __stopwords = list(
-            set().union(
-                *[
-                    nltk.corpus.stopwords.words(lang)
-                    for lang in self.count_languages().keys()
-                    if lang in nltk.corpus.stopwords.fileids()
-                ]
-            )
-        )
+        filter_words = [
+            *functional.text.load_nltk_stopwords(list(self.count_languages().keys())),
+            *self.args.token_count_exclude,
+        ]
 
-        return collections.Counter(
-            [
-                tok
-                for tok in self.tokens
-                if tok
-                not in [
-                    *__stopwords,
-                    *string.punctuation,
-                    *self.args.exclude_from_count,
-                ]
-            ]
-        )
+        return collections.Counter([tok for tok in self.tokens if tok not in filter_words])
 
     def count_ngrams(self, n: int) -> collections.Counter:
         return collections.Counter(self.generate_ngrams(n))
@@ -90,13 +74,15 @@ class Corpus(pydantic.BaseModel):
     def create_subset_by_language(self, language: str) -> "Corpus":
         return Corpus(
             sentences=(
-                sentences := [sent for sent in self.sentences if sent.language == language]
+                subset := [sent for sent in self.sentences if sent.language == language]
             ),
-            raw=" ".join([sent.content for sent in sentences]),
+            raw=" ".join([sent.content for sent in subset]),
         )
 
     def generate_ngrams(self, n: int) -> typing.List[typing.Tuple[str, ...]]:
-        return [ngram for sent in self.sentences for ngram in sent.generate_ngrams(n)]
+        return [
+            ngram for sent in self.sentences for ngram in functional.text.ngrams(sent.tokens, n)
+        ]
 
     @classmethod
     def from_txt(cls, path: str) -> "Corpus":

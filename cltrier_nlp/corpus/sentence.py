@@ -1,12 +1,10 @@
 import typing
 
-import nltk
 import pandas
 import pydantic
 
+from .. import functional
 from .. import util
-
-nltk.download("punkt")
 
 
 class Sentence(pydantic.BaseModel):
@@ -23,37 +21,27 @@ class Sentence(pydantic.BaseModel):
             self.language = util.detect_language(self.content)
 
         if not self.tokens:
-            self.tokens = self.generate_tokens()
+            self.tokens = functional.text.tokenize(self.content, language=self.language)
 
     @pydantic.computed_field
     @property
     def bigrams(self) -> typing.List[typing.Tuple[str, ...]]:
-        return self.generate_ngrams(2)
+        return functional.text.ngrams(self.tokens, 2)
 
     @pydantic.computed_field
     @property
     def trigrams(self) -> typing.List[typing.Tuple[str, ...]]:
-        return self.generate_ngrams(3)
+        return functional.text.ngrams(self.tokens, 3)
 
     @pydantic.computed_field
     @property
     def tetragram(self) -> typing.List[typing.Tuple[str, ...]]:
-        return self.generate_ngrams(4)
+        return functional.text.ngrams(self.tokens, 4)
 
     @pydantic.computed_field
     @property
     def pentagram(self) -> typing.List[typing.Tuple[str, ...]]:
-        return self.generate_ngrams(5)
-
-    def generate_ngrams(self, n: int) -> typing.List[typing.Tuple[str, ...]]:
-        return [tuple(self.tokens[i : i + n]) for i in range(len(self.tokens) - n + 1)]
-
-    def generate_tokens(self):
-        try:
-            return nltk.tokenize.word_tokenize(self.content.lower(), language=self.language)
-
-        except LookupError:
-            return nltk.tokenize.word_tokenize(self.content.lower())
+        return functional.text.ngrams(self.tokens, 5)
 
     def to_row(self) -> pandas.Series:
         return pandas.Series(self.model_dump())
