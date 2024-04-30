@@ -1,3 +1,4 @@
 from . import corpus
+from . import encoder
 
-__all__ = [corpus]
+__all__ = [corpus, encoder]

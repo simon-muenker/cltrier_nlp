@@ -5,7 +5,7 @@ import typing
 import nltk
 import pydantic
 
-from . import util
+from .. import util
 from .sentence import Sentence
 
 nltk.download("punkt")
@@ -21,6 +21,7 @@ class Corpus(pydantic.BaseModel):
     sentences: typing.List[Sentence] = []
     args: CorpusArgs = CorpusArgs()
 
+    @util.timeit
     def model_post_init(self, __context) -> None:
         if not self.sentences:
             self.sentences = [

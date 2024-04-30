@@ -3,7 +3,7 @@ import typing
 import nltk
 import pydantic
 
-from . import util
+from .. import util
 
 nltk.download("punkt")
 

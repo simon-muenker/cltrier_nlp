@@ -23,6 +23,8 @@ nltk = "^3.8.1"
 pydantic = "^2.7.1"
 langdetect = "^1.0.9"
 langcodes = "^3.4.0"
+transformers = "^4.40.1"
+torch = "^2.3.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
