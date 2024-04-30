@@ -5,10 +5,10 @@ import nltk
 
 from cltrier_nlp import corpus
 
-nltk.download('gutenberg')
+nltk.download("gutenberg")
 
 BIB = nltk.corpus.gutenberg
-SUBSET: str = 'carroll-alice.txt'
+SUBSET: str = "carroll-alice.txt"
 
 CORPUS = corpus.Corpus(raw=BIB.raw(SUBSET))
 
@@ -32,7 +32,7 @@ def test_languages():
 
 
 def test_languages_subset():
-    subset: corpus.Corpus = CORPUS.create_subset_by_language('german')
+    subset: corpus.Corpus = CORPUS.create_subset_by_language("german")
 
     assert isinstance(subset, corpus.Corpus)
 

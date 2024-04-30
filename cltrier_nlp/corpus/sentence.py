@@ -5,7 +5,7 @@ import pydantic
 
 from . import util
 
-nltk.download('punkt')
+nltk.download("punkt")
 
 
 class Sentence(pydantic.BaseModel):
@@ -43,11 +43,15 @@ class Sentence(pydantic.BaseModel):
         return self.generate_ngrams(5)
 
     def generate_ngrams(self, n: int) -> typing.List[typing.Tuple[str, ...]]:
-        return [tuple(self.tokens[i:i + n]) for i in range(len(self.tokens) - n + 1)]
+        return [
+            tuple(self.tokens[i : i + n]) for i in range(len(self.tokens) - n + 1)
+        ]
 
     def generate_tokens(self):
         try:
-            return nltk.tokenize.word_tokenize(self.content.lower(), language=self.language)
+            return nltk.tokenize.word_tokenize(
+                self.content.lower(), language=self.language
+            )
 
         except LookupError:
             return nltk.tokenize.word_tokenize(self.content.lower())

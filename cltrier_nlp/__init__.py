@@ -1,5 +1,3 @@
 from . import corpus
 
-__all__ = [
-    corpus
-]
+__all__ = [corpus]

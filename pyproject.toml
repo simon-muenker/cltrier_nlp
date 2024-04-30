@@ -25,6 +25,9 @@ jupyter = "^1.0.0"
 pandas = "^2.2.2"
 matplotlib = "^3.8.4"
 seaborn = "^0.13.2"
+black = "^24.4.2"
+pre-commit = "^3.7.0"
+ruff = "^0.4.2"
 
 [tool.pytest.ini_options]
 log_cli = true
@@ -32,3 +35,11 @@ log_cli_level = "DEBUG"
 testpaths = [
     "tests",
 ]
+
+[tool.black]
+skip-string-normalization = true
+line-length = 86
+
+[tool.ruff]
+
+line-length = 86

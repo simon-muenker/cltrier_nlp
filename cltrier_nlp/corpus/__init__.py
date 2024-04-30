@@ -8,12 +8,12 @@ import pydantic
 from . import util
 from .sentence import Sentence
 
-nltk.download('punkt')
-nltk.download('stopwords')
+nltk.download("punkt")
+nltk.download("stopwords")
 
 
 class CorpusArgs(pydantic.BaseModel):
-    exclude_from_count: typing.List[str] = ['’', '“', '”']
+    exclude_from_count: typing.List[str] = ["’", "“", "”"]
 
 
 class Corpus(pydantic.BaseModel):
@@ -25,21 +25,15 @@ class Corpus(pydantic.BaseModel):
         if not self.sentences:
             self.sentences = [
                 Sentence(content=sent)
-                for sent in
-                nltk.tokenize.sent_tokenize(
-                    self.raw,
-                    language=util.detect_language(self.raw)
+                for sent in nltk.tokenize.sent_tokenize(
+                    self.raw, language=util.detect_language(self.raw)
                 )
             ]
 
     @pydantic.computed_field
     @property
     def tokens(self) -> typing.List[str]:
-        return [
-            tok
-            for sent in self.sentences
-            for tok in sent.tokens
-        ]
+        return [tok for sent in self.sentences for tok in sent.tokens]
 
     @pydantic.computed_field
     @property
@@ -65,46 +59,47 @@ class Corpus(pydantic.BaseModel):
         return collections.Counter([sent.language for sent in self.sentences])
 
     def count_tokens(self) -> collections.Counter:
-        __stopwords = list(set().union(*[
-            nltk.corpus.stopwords.words(lang)
-            for lang in self.count_languages().keys()
-            if lang in nltk.corpus.stopwords.fileids()
-        ]))
+        __stopwords = list(
+            set().union(
+                *[
+                    nltk.corpus.stopwords.words(lang)
+                    for lang in self.count_languages().keys()
+                    if lang in nltk.corpus.stopwords.fileids()
+                ]
+            )
+        )
 
-        return collections.Counter([
-            tok for tok in self.tokens
-            if tok not in [
-                *__stopwords,
-                *string.punctuation,
-                *self.args.exclude_from_count
+        return collections.Counter(
+            [
+                tok
+                for tok in self.tokens
+                if tok
+                not in [
+                    *__stopwords,
+                    *string.punctuation,
+                    *self.args.exclude_from_count,
+                ]
             ]
-        ])
+        )
 
     def count_ngrams(self, n: int) -> collections.Counter:
         return collections.Counter(self.generate_ngrams(n))
 
-    def create_subset_by_language(self, language: str) -> 'Corpus':
+    def create_subset_by_language(self, language: str) -> "Corpus":
         return Corpus(
             sentences=(
                 sentences := [
-                    sent for sent in self.sentences
-                    if sent.language == language
+                    sent for sent in self.sentences if sent.language == language
                 ]
             ),
-            raw=' '.join([
-                sent.content for sent in sentences
-            ])
+            raw=" ".join([sent.content for sent in sentences]),
         )
 
     def generate_ngrams(self, n: int) -> typing.List[typing.Tuple[str, ...]]:
-        return [
-            ngram
-            for sent in self.sentences
-            for ngram in sent.generate_ngrams(n)
-        ]
+        return [ngram for sent in self.sentences for ngram in sent.generate_ngrams(n)]
 
     @classmethod
-    def from_txt(cls, path: str) -> 'Corpus':
+    def from_txt(cls, path: str) -> "Corpus":
         return cls(raw=open(path).read())
 
     def __len__(self) -> int:

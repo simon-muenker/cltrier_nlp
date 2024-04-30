@@ -12,12 +12,10 @@ def detect_language(content: str) -> str:
 
         try:
             return (
-                langcodes.Language.get(
-                    langdetect.detect(content)
-                )
+                langcodes.Language.get(langdetect.detect(content))
                 .display_name()
                 .lower()
             )
 
         except langdetect.lang_detect_exception.LangDetectException:
-            return 'unknown'
+            return "unknown"
