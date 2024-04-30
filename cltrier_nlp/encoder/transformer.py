@@ -3,27 +3,32 @@ import os
 import typing
 
 import pydantic
-
 import torch
 import transformers
 
 from .. import util
 
-
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
+transformers.logging.set_verbosity_error()
 
 
 class TransformerEncoderArgs(pydantic.BaseModel):
     model: str = "prajjwal1/bert-tiny"
-    max_length: int = 512
     layers: typing.List[int] = [-1]
 
+    tokenizer: typing.Dict = dict(
+        max_length=512,
+        truncation=True,
+        return_offsets_mapping=True,
+    )
 
-class TransformerEncoder:
+
+class TransformerEncoder(torch.nn.Module):
 
     @util.timeit
     def __init__(self, args: TransformerEncoderArgs = TransformerEncoderArgs()):
-        transformers.logging.set_verbosity_error()
+        super().__init__()
+
         self.args = args
 
         self.tokenizer = transformers.AutoTokenizer.from_pretrained(args.model)
@@ -33,38 +38,29 @@ class TransformerEncoder:
 
         logging.info(self)
 
-    def __call__(self, batch: typing.List[str], return_unpad: bool = True) -> typing.Dict:
-        token, encoding = self.tokenize(batch)
+    def __call__(self, batch: typing.List[str], remove_padding: bool = True) -> typing.Dict:
+        encoding, token = self.tokenize(batch)
         embeds: torch.Tensor = self.forward(
             torch.tensor(encoding['input_ids'], device=util.get_device()).long(),
             torch.tensor(encoding['attention_mask'], device=util.get_device()).short(),
         )
 
-        def unpad_output(output: torch.tensor, mask: torch.tensor) -> torch.tensor:
-            return (
-                [v[:n] for v, n in zip(output, torch.tensor(mask).sum(1))]
-                if return_unpad
-                else output
-            )
-
         return {
-            'embeds': unpad_output(embeds, encoding['attention_mask']),
-            'token': unpad_output(token, encoding['attention_mask']),
-            **encoding,
-        }
+            label: (
+                [v[:n] for v, n in zip(value, torch.tensor(encoding['attention_mask']).sum(1))]
+                if remove_padding
+                else value
+            )
+            for label, value in [('embeds', embeds), ('token', token)]
+        } | encoding
 
     def tokenize(
         self, batch: typing.List[str], padding: bool = True
-    ) -> typing.Tuple[typing.List[typing.List[str]], dict]:
-        encoding = self.tokenizer(
-            batch,
-            padding=padding,
-            max_length=self.args.max_length,
-            truncation=True,
-            return_offsets_mapping=True,
+    ) -> typing.Tuple[typing.Dict, typing.List[typing.List[str]]]:
+        return (
+            encoding := self.tokenizer(batch, padding=padding, **self.args.tokenizer),
+            [self.ids_to_tokens(ids) for ids in encoding['input_ids']],
         )
-
-        return [self.ids_to_tokens(ids) for ids in encoding['input_ids']], encoding
 
     def forward(self, ids: torch.Tensor, masks: torch.Tensor) -> torch.Tensor:
         return (
