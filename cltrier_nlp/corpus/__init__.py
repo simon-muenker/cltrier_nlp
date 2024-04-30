@@ -12,9 +12,14 @@ nltk.download('punkt')
 nltk.download('stopwords')
 
 
+class CorpusArgs(pydantic.BaseModel):
+    exclude_from_count: typing.List[str] = ['’', '“', '”']
+
+
 class Corpus(pydantic.BaseModel):
     raw: str
     sentences: typing.List[Sentence] = []
+    args: CorpusArgs = CorpusArgs()
 
     def model_post_init(self, __context) -> None:
         if not self.sentences:
@@ -48,7 +53,11 @@ class Corpus(pydantic.BaseModel):
 
         return collections.Counter([
             tok for tok in self.tokens
-            if tok not in [*__stopwords, *string.punctuation]
+            if tok not in [
+                *__stopwords,
+                *string.punctuation,
+                *self.args.exclude_from_count
+            ]
         ])
 
     def create_subset_by_language(self, language: str) -> 'Corpus':
