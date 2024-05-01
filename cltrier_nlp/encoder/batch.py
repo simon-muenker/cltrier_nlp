@@ -21,9 +21,7 @@ class EncodedBatch(pydantic.BaseModel):
     def model_post_init(self, __context) -> None:
 
         if self.unpad:
-            self.embeds = [
-                v[:n] for v, n in zip(self.embeds, torch.tensor(self.attention_mask).sum(1))
-            ]
-            self.token = [
-                v[:n] for v, n in zip(self.token, torch.tensor(self.attention_mask).sum(1))
-            ]
+            mask = torch.tensor(self.attention_mask).sum(1)
+
+            self.embeds = [v[:n] for v, n in zip(self.embeds, mask)]
+            self.token = [v[:n] for v, n in zip(self.token, mask)]
