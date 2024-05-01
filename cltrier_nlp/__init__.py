@@ -1,5 +1,5 @@
 from . import corpus
 from . import encoder
-from . import util
+from . import utility
 
-__all__ = [corpus, encoder, util]
+__all__ = [corpus, encoder, utility]

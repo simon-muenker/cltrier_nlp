@@ -4,7 +4,6 @@ import pandas
 import pydantic
 
 from .. import functional
-from .. import util
 
 
 class Sentence(pydantic.BaseModel):
@@ -18,7 +17,7 @@ class Sentence(pydantic.BaseModel):
         self.content = self.content.replace("\n", " ")
 
         if not self.language:
-            self.language = util.detect_language(self.content)
+            self.language = functional.text.detect_language(self.content)
 
         if not self.tokens:
             self.tokens = functional.text.tokenize(self.content, language=self.language)

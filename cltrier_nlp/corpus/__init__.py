@@ -3,10 +3,8 @@ import string
 import typing
 import pandas
 
-import nltk
 import pydantic
 
-from .. import util
 from .. import functional
 from .sentence import Sentence
 
@@ -22,14 +20,11 @@ class Corpus(pydantic.BaseModel):
     sentences: typing.List[Sentence] = []
     args: CorpusArgs = CorpusArgs()
 
-    @util.timeit
+    @functional.timeit
     def model_post_init(self, __context) -> None:
         if not self.sentences:
             self.sentences = [
-                Sentence(content=sent)
-                for sent in nltk.tokenize.sent_tokenize(
-                    self.raw, language=util.detect_language(self.raw)
-                )
+                Sentence(content=sent) for sent in functional.text.sentenize(self.raw)
             ]
 
     @pydantic.computed_field
@@ -62,7 +57,9 @@ class Corpus(pydantic.BaseModel):
 
     def count_tokens(self) -> collections.Counter:
         filter_words = [
-            *functional.text.load_nltk_stopwords(list(self.count_languages().keys())),
+            *functional.text.load_stopwords(
+                list(set([sent.language for sent in self.sentences]))
+            ),
             *self.args.token_count_exclude,
         ]
 

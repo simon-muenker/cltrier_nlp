@@ -8,7 +8,7 @@ import transformers
 
 from .batch import EncodedBatch
 from .pooler import EncoderPooler
-from .. import util
+from .. import functional
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 transformers.logging.set_verbosity_error()
@@ -20,6 +20,8 @@ class EncoderArgs(pydantic.BaseModel):
     model: str = "prajjwal1/bert-tiny"
     layers: typing.List[int] = [-1]
 
+    device: str = functional.neural.get_device()
+
     tokenizer: typing.Dict = dict(
         max_length=512,
         truncation=True,
@@ -29,7 +31,7 @@ class EncoderArgs(pydantic.BaseModel):
 
 class Encoder(torch.nn.Module):
 
-    @util.timeit
+    @functional.timeit
     def __init__(self, args: EncoderArgs = EncoderArgs()):
         super().__init__()
 
@@ -38,28 +40,22 @@ class Encoder(torch.nn.Module):
         self.tokenizer = transformers.AutoTokenizer.from_pretrained(args.model)
         self.model = transformers.AutoModel.from_pretrained(
             args.model, output_hidden_states=True
-        ).to(util.get_device())
+        ).to(self.args.device)
 
         logging.info(self)
 
-    def __call__(self, batch: typing.List[str], remove_padding: bool = True) -> EncodedBatch:
+    def __call__(self, batch: typing.List[str], unpad: bool = True) -> EncodedBatch:
         encoding, token = self.tokenize(batch)
         embeds: torch.Tensor = self.forward(
-            torch.tensor(encoding["input_ids"], device=util.get_device()).long(),
-            torch.tensor(encoding["attention_mask"], device=util.get_device()).short(),
+            torch.tensor(encoding["input_ids"], device=self.args.device).long(),
+            torch.tensor(encoding["attention_mask"], device=self.args.device).short(),
         )
 
         return EncodedBatch(
             **{
-                label: (
-                    [
-                        v[:n]
-                        for v, n in zip(value, torch.tensor(encoding["attention_mask"]).sum(1))
-                    ]
-                    if remove_padding
-                    else value
-                )
-                for label, value in [("embeds", embeds), ("token", token)]
+                "embeds": embeds,
+                "token": token,
+                "unpad": unpad,
             }
             | encoding
         )
@@ -97,5 +93,5 @@ class Encoder(torch.nn.Module):
     def __repr__(self) -> str:
         return (
             f'> Encoder Name: {self.model.config.__dict__["_name_or_path"]}\n'
-            f"  Memory Usage: {util.calculate_model_memory_usage(self.model)}"
+            f"  Memory Usage: {functional.neural.calculate_model_memory_usage(self.model)}"
         )
