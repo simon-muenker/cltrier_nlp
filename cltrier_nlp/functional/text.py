@@ -5,9 +5,6 @@ import langcodes
 import langdetect
 import nltk
 
-nltk.download("punkt")
-nltk.download("stopwords")
-
 
 def load_stopwords(languages: typing.List[str]) -> typing.List[str]:
     return list(

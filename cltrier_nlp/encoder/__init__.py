@@ -1,5 +1,4 @@
 import logging
-import os
 import typing
 
 import pydantic
@@ -10,9 +9,6 @@ from .batch import EncodedBatch
 from .pooler import EncoderPooler
 from .. import functional
 
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-transformers.logging.set_verbosity_error()
-
 __all__ = [EncodedBatch, EncoderPooler]
 
 
@@ -22,7 +18,7 @@ class EncoderArgs(pydantic.BaseModel):
 
     device: str = functional.neural.get_device()
 
-    tokenizer: typing.Dict = dict(
+    tokenizer: typing.Dict[str, any] = dict(
         max_length=512,
         truncation=True,
         return_offsets_mapping=True,
