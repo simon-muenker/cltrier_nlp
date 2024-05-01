@@ -22,9 +22,9 @@ def sentenize(text: str) -> typing.List[str]:
     return nltk.tokenize.sent_tokenize(text, language=detect_language(text))
 
 
-def tokenize(text: str, language: str) -> typing.List[str]:
+def tokenize(text: str) -> typing.List[str]:
     try:
-        return nltk.tokenize.word_tokenize(text.lower(), language=language)
+        return nltk.tokenize.word_tokenize(text.lower(), language=detect_language(text))
 
     except LookupError:
         return nltk.tokenize.word_tokenize(text.lower())

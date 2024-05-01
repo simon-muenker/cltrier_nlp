@@ -20,7 +20,7 @@ class Sentence(pydantic.BaseModel):
             self.language = functional.text.detect_language(self.content)
 
         if not self.tokens:
-            self.tokens = functional.text.tokenize(self.content, language=self.language)
+            self.tokens = functional.text.tokenize(self.content)
 
     @pydantic.computed_field
     @property
