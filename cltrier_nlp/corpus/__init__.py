@@ -26,7 +26,7 @@ class Corpus(pydantic.BaseModel):
     def model_post_init(self, __context) -> None:
         if not self.sentences:
             self.sentences = [
-                Sentence(content=sent) for sent in functional.text.sentenize(self.raw)
+                Sentence(raw=sent) for sent in functional.text.sentenize(self.raw)
             ]
 
     @pydantic.computed_field

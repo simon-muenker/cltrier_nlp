@@ -7,20 +7,20 @@ from .. import functional
 
 
 class Sentence(pydantic.BaseModel):
-    content: str
+    raw: str
 
     language: str = None
     tokens: typing.List[str] = pydantic.Field(default_factory=lambda: [])
 
     def model_post_init(self, __context) -> None:
 
-        self.content = self.content.replace("\n", " ")
+        self.raw = self.raw.replace("\n", " ").strip()
 
         if not self.language:
-            self.language = functional.text.detect_language(self.content)
+            self.language = functional.text.detect_language(self.raw)
 
         if not self.tokens:
-            self.tokens = functional.text.tokenize(self.content)
+            self.tokens = functional.text.tokenize(self.raw)
 
     @pydantic.computed_field
     @property

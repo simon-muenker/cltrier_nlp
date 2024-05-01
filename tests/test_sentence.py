@@ -18,20 +18,20 @@ SAMPLES: typing.List[typing.Dict[str, str]] = [
 
 def test_languages():
     for sample in SAMPLES:
-        sent = corpus.Sentence(content=sample["content"])
+        sent = corpus.Sentence(raw=sample["content"])
 
         assert sent.language == sample["lang"]
 
 
 def test_tokenization():
-    sent = corpus.Sentence(content=SAMPLES[0]["content"])
+    sent = corpus.Sentence(raw=SAMPLES[0]["content"])
 
     assert isinstance(sent.tokens, typing.List)
     assert all([isinstance(tok, str) for tok in sent.tokens])
 
 
 def test_ngrams():
-    sent = corpus.Sentence(content=SAMPLES[0]["content"])
+    sent = corpus.Sentence(raw=SAMPLES[0]["content"])
 
     for n, grams in enumerate(
         [sent.bigrams, sent.trigrams, sent.tetragram, sent.pentagram], start=2
@@ -43,6 +43,6 @@ def test_ngrams():
 
 
 def test_to_row():
-    sent = corpus.Sentence(content=SAMPLES[0]["content"])
+    sent = corpus.Sentence(raw=SAMPLES[0]["content"])
 
     assert isinstance(sent.to_row(), pandas.Series)
