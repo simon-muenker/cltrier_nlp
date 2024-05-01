@@ -8,8 +8,15 @@ from . import encoder
 from . import utility
 
 # preload nltk data used in functional.text
-nltk.download("punkt")
-nltk.download("stopwords")
+try:
+    nltk.data.find("tokenizers/punkt")
+except LookupError:
+    nltk.download("punkt")
+
+try:
+    nltk.data.find("corpora/stopwords")
+except LookupError:
+    nltk.download("stopwords")
 
 # configure encoder:model/tokenizer
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
