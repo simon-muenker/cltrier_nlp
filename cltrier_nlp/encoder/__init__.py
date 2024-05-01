@@ -18,7 +18,7 @@ class EncoderArgs(pydantic.BaseModel):
 
     device: str = functional.neural.get_device()
 
-    tokenizer: typing.Dict[str, any] = dict(
+    tokenizer: typing.Dict[str, str | int] = dict(
         max_length=512,
         truncation=True,
         return_offsets_mapping=True,
