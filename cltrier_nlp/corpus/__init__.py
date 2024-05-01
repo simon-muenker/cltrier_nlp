@@ -8,6 +8,8 @@ import pydantic
 from .. import functional
 from .sentence import Sentence
 
+__all__ = [Sentence]
+
 
 class CorpusArgs(pydantic.BaseModel):
     token_count_exclude: typing.List[str] = pydantic.Field(
