@@ -14,6 +14,7 @@ PACKAGE: str = "cltrier_nlp"
 ROOT: Path = Path(__file__).parent.parent
 SRC: Path = ROOT / PACKAGE
 
+INDEX_PAGE: Path = ROOT / "README.md"
 
 for path in sorted(SRC.rglob("*.py")):
 
@@ -41,4 +42,6 @@ for path in sorted(SRC.rglob("*.py")):
 
 
 with mkdocs_gen_files.open("index.md", "a") as nav_file:
+    nav_file.writelines(open(INDEX_PAGE).read())
+    nav_file.writelines("\n## Sitemap\n")
     nav_file.writelines(nav.build_literate_nav())

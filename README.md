@@ -1,4 +1,4 @@
-# Project Repository: NLP Course (M.Sc. NLP, University Trier)
+# CLTrier NLP: academic teaching toolbox
 
 ## Usage
 

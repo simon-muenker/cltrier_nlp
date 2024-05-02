@@ -1,9 +1,9 @@
 
-
 .PHONY: install
 install:
 	@poetry install
 	@poetry run pre-commit install
+	@poetry run mypy --install-types
 
 
 .PHONY: check
@@ -22,13 +22,15 @@ test:
 deploy:
 	@poetry build
 	@poetry publish
+	mkdir -p ./docs
+	@poetry run mkdocs gh-deploy
 
 
 .PHONY: docs
 docs:
 	mkdir -p ./docs
-	@poetry run mkdocs build
 	@poetry run mkdocs serve
+
 
 .PHONY: clean
 clean:
