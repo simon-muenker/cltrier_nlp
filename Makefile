@@ -26,7 +26,7 @@ deploy:
 
 .PHONY: docs
 docs:
-	mkdir ./docs -p
+	mkdir -p ./docs
 	@poetry run mkdocs build
 	@poetry run mkdocs serve
 
