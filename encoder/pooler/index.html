@@ -85,6 +85,8 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../utility/map/">Map</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../utility/types/">Types</a>
+                  </li>
               </ul>
       </div>
     </div>
@@ -206,7 +208,7 @@
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">encodes</span><span class="p">:</span> <span class="n">EncodedBatch</span><span class="p">,</span>
+        <span class="n">encodes</span><span class="p">:</span> <span class="n">EncoderBatch</span><span class="p">,</span>
         <span class="n">extract_spans</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">form</span><span class="o">=</span><span class="n">EncoderPoolerArgs</span><span class="p">()</span><span class="o">.</span><span class="n">types</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
@@ -227,7 +229,7 @@
         <span class="p">]</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_extract_embed_spans</span><span class="p">(</span><span class="n">encodes</span><span class="p">:</span> <span class="n">EncodedBatch</span><span class="p">,</span> <span class="n">extract_spans</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_extract_embed_spans</span><span class="p">(</span><span class="n">encodes</span><span class="p">:</span> <span class="n">EncoderBatch</span><span class="p">,</span> <span class="n">extract_spans</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -307,7 +309,7 @@
 <span class="normal">61</span>
 <span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="n">encodes</span><span class="p">:</span> <span class="n">EncodedBatch</span><span class="p">,</span>
+    <span class="n">encodes</span><span class="p">:</span> <span class="n">EncoderBatch</span><span class="p">,</span>
     <span class="n">extract_spans</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">form</span><span class="o">=</span><span class="n">EncoderPoolerArgs</span><span class="p">()</span><span class="o">.</span><span class="n">types</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
