@@ -13,7 +13,7 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Home";
+        var mkdocs_page_name = "CLTrier NLP: academic teaching toolbox";
         var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = null;
       </script>
@@ -41,7 +41,27 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">CLTrier NLP: academic teaching toolbox</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#install">Install</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#development">Development</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#install_1">Install</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tests">Tests</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#linting">Linting</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sitemap">Sitemap</a>
+    </li>
+    </ul>
                 </li>
               </ul>
                 <ul><li>
@@ -98,7 +118,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Home</li>
+      <li class="breadcrumb-item active">CLTrier NLP: academic teaching toolbox</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -107,7 +127,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <ul>
+                <h1 id="cltrier-nlp-academic-teaching-toolbox">CLTrier NLP: academic teaching toolbox</h1>
+<h2 id="usage">Usage</h2>
+<h3 id="install">Install</h3>
+<pre><code class="language-bash">pip install cltrier_nlp
+</code></pre>
+<h2 id="development">Development</h2>
+<h3 id="install_1">Install</h3>
+<p>The project is managed by Poetry, a dependency management and packaging library. Please set up a local version according to the <a href="https://python-poetry.org/docs/">official installation guidelines</a>. When finished, install the local repository as follows:</p>
+<pre><code class="language-bash"># install package dependencies
+poetry install
+
+# add pre-commit to git hooks
+poetry run pre-commit install  
+</code></pre>
+<h3 id="tests">Tests</h3>
+<pre><code class="language-bash">poetry run pytest
+</code></pre>
+<h3 id="linting">Linting</h3>
+<pre><code class="language-bash">poetry run pre-commit run --all-files
+</code></pre>
+<h2 id="sitemap">Sitemap</h2>
+<ul>
 <li><a href="corpus/">corpus</a><ul>
 <li><a href="corpus/sentence/">sentence</a></li>
 </ul>
@@ -175,5 +216,5 @@
 
 <!--
 MkDocs version : 1.6.0
-Build Date UTC : 2024-05-02 21:04:40.700529+00:00
+Build Date UTC : 2024-05-02 21:28:28.110294+00:00
 -->
