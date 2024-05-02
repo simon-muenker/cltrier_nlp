@@ -75,7 +75,7 @@ class Corpus(pydantic.BaseModel):
             sentences=(
                 subset := [sent for sent in self.sentences if sent.language == language]
             ),
-            raw=" ".join([sent.content for sent in subset]),
+            raw=" ".join([sent.raw for sent in subset]),
         )
 
     def generate_ngrams(self, n: int) -> typing.List[typing.Tuple[str, ...]]:
