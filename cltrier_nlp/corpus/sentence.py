@@ -5,6 +5,8 @@ import pydantic
 
 from .. import functional
 
+UNK_LANG: str = 'unknown'
+
 
 class Sentence(pydantic.BaseModel):
     """
@@ -12,7 +14,7 @@ class Sentence(pydantic.BaseModel):
     """
     raw: str
 
-    language: str = 'unknown'
+    language: str = UNK_LANG
     tokens: typing.List[str] = pydantic.Field(default_factory=lambda: [])
 
     def model_post_init(self, __context) -> None:
@@ -21,7 +23,7 @@ class Sentence(pydantic.BaseModel):
         """
         self.raw = self.raw.replace("\n", " ").strip()
 
-        if not self.language:
+        if self.language == UNK_LANG:
             self.language = functional.text.detect_language(self.raw)
 
         if not self.tokens:
