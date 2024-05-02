@@ -19,7 +19,7 @@ test:
 
 
 .PHONY: deploy
-publish:
+deploy:
 	@poetry build
 	@poetry publish
 
