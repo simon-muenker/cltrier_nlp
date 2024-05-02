@@ -5,6 +5,9 @@ import torch
 
 
 class EncodedBatch(pydantic.BaseModel):
+    """
+
+    """
     embeds: typing.List[torch.Tensor]
     token: typing.List[typing.List[str]]
 

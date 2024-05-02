@@ -7,6 +7,9 @@ from .batch import EncodedBatch
 
 
 class EncoderPoolerArgs(pydantic.BaseModel):
+    """
+
+    """
     fns: typing.Dict[str, typing.Callable] = {
         # sentence based
         "sent_cls": lambda x: x[0],
@@ -32,13 +35,19 @@ class EncoderPoolerArgs(pydantic.BaseModel):
 
 
 class EncoderPooler:
+    """
+
+    """
 
     def __call__(
         self,
         encodes: EncodedBatch,
-        extract_spans: typing.List[typing.Tuple[int, int]] = None,
+        extract_spans: typing.Union[typing.List[typing.Tuple[int, int]], None] = None,
         form=EncoderPoolerArgs().types,
     ) -> typing.List[torch.Tensor]:
+        """
+
+        """
 
         if form not in ["sent_cls", "sent_mean"] and not extract_spans:
             raise ValueError("Please provide a list of span values to extract.")
@@ -54,6 +63,9 @@ class EncoderPooler:
 
     @staticmethod
     def _extract_embed_spans(encodes: EncodedBatch, extract_spans) -> typing.Generator:
+        """
+
+        """
         for span, mapping, embeds in zip(extract_spans, encodes.offset_mapping, encodes.embeds):
             emb_span_idx = EncoderPooler._get_token_idx(
                 mapping[1 : embeds.size(dim=0) - 1], span
@@ -64,6 +76,9 @@ class EncoderPooler:
     def _get_token_idx(
         mapping: typing.List[typing.Tuple[int, int]], c_span: typing.Tuple[int, int]
     ) -> typing.Tuple[int, int]:
+        """
+
+        """
         def prep_map(pos):
             return list(enumerate(list(zip(*mapping))[pos]))
 

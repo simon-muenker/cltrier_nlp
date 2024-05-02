@@ -24,17 +24,26 @@ pydantic = "^2.7.1"
 langdetect = "^1.0.9"
 langcodes = "^3.4.0"
 transformers = "^4.40.1"
-torch = "^2.3.0"
+torch = "^2.2.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
+pre-commit = "^3.7.0"
+ruff = "^0.4.2"
+mypy = "^1.10.0"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.6.0"
+mkdocstrings = { version = "^0.25.0", extras = ["python"] }
+mkdocs-literate-nav = "^0.6.1"
+mkdocs-gen-files = "^0.5.0"
+mkdocs-section-index = "^0.3.9"
+
+[tool.poetry.group.examples.dependencies]
 jupyter = "^1.0.0"
 pandas = "^2.2.2"
 matplotlib = "^3.8.4"
 seaborn = "^0.13.2"
-pre-commit = "^3.7.0"
-black = "^24.4.2"
-ruff = "^0.4.2"
 
 [tool.pytest.ini_options]
 log_cli = true
@@ -43,8 +52,8 @@ testpaths = [
     "tests",
 ]
 
-[tool.black]
-line-length = 96
-
 [tool.ruff]
 line-length = 96
+
+[tool.mypy]
+files = "cltrier_nlp"

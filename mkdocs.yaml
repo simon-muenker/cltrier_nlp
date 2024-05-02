@@ -1,0 +1,14 @@
+site_name: CLTrier NLP
+
+theme: readthedocs
+
+plugins:
+  - search
+  - gen-files:
+      scripts:
+        - scripts/gen_docs_pages.py
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - section-index
+  - mkdocstrings:
+      default_handler: python

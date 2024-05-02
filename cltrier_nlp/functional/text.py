@@ -7,6 +7,9 @@ import nltk
 
 
 def load_stopwords(languages: typing.List[str]) -> typing.List[str]:
+    """
+
+    """
     return list(
         set().union(
             *[
@@ -19,10 +22,16 @@ def load_stopwords(languages: typing.List[str]) -> typing.List[str]:
 
 
 def sentenize(text: str) -> typing.List[str]:
+    """
+
+    """
     return nltk.tokenize.sent_tokenize(text, language=detect_language(text))
 
 
 def tokenize(text: str) -> typing.List[str]:
+    """
+
+    """
     try:
         return nltk.tokenize.word_tokenize(text.lower(), language=detect_language(text))
 
@@ -31,10 +40,16 @@ def tokenize(text: str) -> typing.List[str]:
 
 
 def ngrams(tokens: typing.List[str], n: int) -> typing.List[typing.Tuple[str, ...]]:
+    """
+
+    """
     return [tuple(tokens[i : i + n]) for i in range(len(tokens) - n + 1)]
 
 
 def detect_language(content: str) -> str:
+    """
+
+    """
     # Ignore langcodes dependent language data warning
     # DeprecationWarning: pkg_resources is deprecated as an API.
     with warnings.catch_warnings():

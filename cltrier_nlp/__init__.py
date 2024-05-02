@@ -22,4 +22,4 @@ except LookupError:
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 transformers.logging.set_verbosity_error()
 
-__all__ = [corpus, encoder, utility]
+__all__ = ["corpus", "encoder", "utility"]
