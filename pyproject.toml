@@ -58,3 +58,5 @@ line-length = 96
 
 [tool.mypy]
 files = "cltrier_nlp"
+disable_error_code = "import-untyped"
+

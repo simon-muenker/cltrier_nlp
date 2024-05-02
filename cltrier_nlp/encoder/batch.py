@@ -3,19 +3,21 @@ import typing
 import pydantic
 import torch
 
+from .. import utility
 
-class EncodedBatch(pydantic.BaseModel):
+
+class EncoderBatch(pydantic.BaseModel):
     """
 
     """
-    embeds: typing.List[torch.Tensor]
-    token: typing.List[typing.List[str]]
+    embeds: utility.types.Batch[torch.Tensor]
+    token: utility.types.Batch[utility.types.Tokens]
 
-    input_ids: typing.List[typing.List[int]]
-    token_type_ids: typing.List[typing.List[int]]
+    input_ids: utility.types.Batch[typing.List[int]]
+    token_type_ids: utility.types.Batch[typing.List[int]]
 
-    attention_mask: typing.List[typing.List[int]]
-    offset_mapping: typing.List[typing.List[typing.Tuple[int, int]]]
+    attention_mask: utility.types.Batch[typing.List[int]]
+    offset_mapping: utility.types.Batch[typing.List[typing.Tuple[int, int]]]
 
     unpad: bool = True
 

@@ -3,7 +3,7 @@ import typing
 import pydantic
 import torch
 
-from .batch import EncodedBatch
+from .batch import EncoderBatch
 
 
 class EncoderPoolerArgs(pydantic.BaseModel):
@@ -41,7 +41,7 @@ class EncoderPooler:
 
     def __call__(
         self,
-        encodes: EncodedBatch,
+        encodes: EncoderBatch,
         extract_spans: typing.Union[typing.List[typing.Tuple[int, int]], None] = None,
         form=EncoderPoolerArgs().types,
     ) -> typing.List[torch.Tensor]:
@@ -62,7 +62,7 @@ class EncoderPooler:
         ]
 
     @staticmethod
-    def _extract_embed_spans(encodes: EncodedBatch, extract_spans) -> typing.Generator:
+    def _extract_embed_spans(encodes: EncoderBatch, extract_spans) -> typing.Generator:
         """
 
         """

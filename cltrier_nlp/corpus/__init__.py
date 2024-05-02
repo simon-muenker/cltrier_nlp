@@ -10,6 +10,7 @@ import pydantic
 
 from .sentence import Sentence
 from .. import functional
+from .. import utility
 
 __all__ = ["Sentence"]
 
@@ -18,7 +19,7 @@ class CorpusArgs(pydantic.BaseModel):
     """
 
     """
-    token_count_exclude: typing.List[str] = pydantic.Field(
+    token_count_exclude: utility.types.Tokens = pydantic.Field(
         default_factory=lambda: ["’", "“", "”", *string.punctuation]
     )
 
@@ -32,8 +33,13 @@ class Corpus(pydantic.BaseModel):
     args: CorpusArgs = CorpusArgs()
 
     @functional.timeit
-    def model_post_init(self, __context) -> None:
+    def model_post_init(self, __context: typing.Any) -> None:
         """
+
+        Args:
+            __context (typing.Any): ??
+
+        Returns:
 
         """
         if not self.sentences:
@@ -43,53 +49,67 @@ class Corpus(pydantic.BaseModel):
 
     @pydantic.computed_field  # type: ignore[misc]
     @property
-    def tokens(self) -> typing.List[str]:
+    def tokens(self) -> utility.types.Tokens:
         """
+
+        Returns:
 
         """
         return [tok for sent in self.sentences for tok in sent.tokens]
 
     @pydantic.computed_field  # type: ignore[misc]
     @property
-    def bigrams(self) -> typing.List[typing.Tuple[str, ...]]:
+    def bigrams(self) -> utility.types.NGrams:
         """
 
+        Returns:
+            utility.types.NGrams:
         """
         return self.generate_ngrams(2)
 
     @pydantic.computed_field  # type: ignore[misc]
     @property
-    def trigrams(self) -> typing.List[typing.Tuple[str, ...]]:
+    def trigrams(self) -> utility.types.NGrams:
         """
 
+        Returns:
+            utility.types.NGrams:
         """
         return self.generate_ngrams(3)
 
     @pydantic.computed_field  # type: ignore[misc]
     @property
-    def tetragram(self) -> typing.List[typing.Tuple[str, ...]]:
+    def tetragram(self) -> utility.types.NGrams:
         """
 
+        Returns:
+            utility.types.NGrams:
         """
         return self.generate_ngrams(4)
 
     @pydantic.computed_field  # type: ignore[misc]
     @property
-    def pentagram(self) -> typing.List[typing.Tuple[str, ...]]:
+    def pentagram(self) -> utility.types.NGrams:
         """
 
+        Returns:
+            utility.types.NGrams:
         """
         return self.generate_ngrams(5)
 
     def count_languages(self) -> collections.Counter:
         """
 
+        Returns:
+            collections.Counter:
         """
         return collections.Counter([sent.language for sent in self.sentences])
 
     def count_tokens(self) -> collections.Counter:
         """
 
+        Returns:
+            collections.Counter:
         """
         filter_words = [
             *functional.text.load_stopwords(
@@ -103,12 +123,22 @@ class Corpus(pydantic.BaseModel):
     def count_ngrams(self, n: int) -> collections.Counter:
         """
 
+        Args:
+            n (int):
+
+        Returns:
+            collections.Counter:
         """
         return collections.Counter(self.generate_ngrams(n))
 
     def create_subset_by_language(self, language: str) -> "Corpus":
         """
 
+        Args:
+            language (str):
+
+        Returns:
+            Corpus
         """
         return Corpus(
             sentences=(
@@ -117,9 +147,14 @@ class Corpus(pydantic.BaseModel):
             raw=" ".join([sent.raw for sent in subset]),
         )
 
-    def generate_ngrams(self, n: int) -> typing.List[typing.Tuple[str, ...]]:
+    def generate_ngrams(self, n: int) -> utility.types.NGrams:
         """
 
+        Args:
+            n (int):
+
+        Returns:
+            utility.types.NGrams:
         """
         return [
             ngram for sent in self.sentences for ngram in functional.text.ngrams(sent.tokens, n)
@@ -129,12 +164,19 @@ class Corpus(pydantic.BaseModel):
     def from_txt(cls, path: str) -> "Corpus":
         """
 
+        Args:
+            path (str):
+
+        Returns:
+            Corpus
         """
         return cls(raw=open(path).read())
 
     def to_df(self) -> pandas.DataFrame:
         """
 
+        Returns:
+            pandas.DataFrame:
         """
         return pandas.DataFrame(
             [sent.to_row() for sent in self.sentences],
@@ -143,5 +185,7 @@ class Corpus(pydantic.BaseModel):
     def __len__(self) -> int:
         """
 
+        Returns:
+            int:
         """
         return len(self.sentences)
