@@ -4,6 +4,7 @@ src: https://mkdocstrings.github.io/recipes/
 """
 
 from pathlib import Path
+import re
 
 import mkdocs_gen_files
 
@@ -15,6 +16,7 @@ ROOT: Path = Path(__file__).parent.parent
 SRC: Path = ROOT / PACKAGE
 
 INDEX_PAGE: Path = ROOT / "README.md"
+NEW_INDEX_TITLE: str = "Getting started"
 
 for path in sorted(SRC.rglob("*.py")):
 
@@ -42,6 +44,8 @@ for path in sorted(SRC.rglob("*.py")):
 
 
 with mkdocs_gen_files.open("index.md", "a") as nav_file:
-    nav_file.writelines(open(INDEX_PAGE).read())
+    nav_file.writelines(
+        re.sub(r"^#\s.*\n", f"# {NEW_INDEX_TITLE}\n", open(INDEX_PAGE).read())
+    )
     nav_file.writelines("\n## Sitemap\n")
     nav_file.writelines(nav.build_literate_nav())
