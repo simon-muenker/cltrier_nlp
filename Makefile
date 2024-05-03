@@ -24,6 +24,7 @@ deploy:
 	@poetry publish
 	mkdir -p ./docs
 	@poetry run mkdocs gh-deploy
+	$(MAKE) clean
 
 
 .PHONY: docs
