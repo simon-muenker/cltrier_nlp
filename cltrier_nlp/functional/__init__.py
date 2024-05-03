@@ -13,7 +13,7 @@ from . import neural
 __all__ = ["text", "neural"]
 
 
-def timeit(func: typing.Callable):
+def timeit(func: typing.Callable) -> typing.Callable:
     """
     Decorator function to measure the execution time of the function argument.
 
