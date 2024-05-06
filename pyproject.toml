@@ -20,12 +20,12 @@ packages = [{ include = "cltrier_nlp" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-nltk = "^3.8.1"
 pydantic = "^2.7.1"
-langdetect = "^1.0.9"
-langcodes = "^3.4.0"
+nltk = "^3.8.1"
 transformers = "^4.40.1"
 torch = "^2.2.2"
+langdetect = "^1.0.9"
+langcodes = "^3.4.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
@@ -42,7 +42,9 @@ mkdocs-section-index = "^0.3.9"
 
 [tool.poetry.group.examples.dependencies]
 jupyter = "^1.0.0"
+datasets = "^2.19.1"
 pandas = "^2.2.2"
+scikit-learn = "^1.4.2"
 matplotlib = "^3.8.4"
 seaborn = "^0.13.2"
 
