@@ -78,6 +78,17 @@
                   </li>
               </ul>
                 <ul><li>
+                    <a href="../../trainer/" style="padding: 0; font-size: inherit; line-height: inherit">
+              <p class="caption"><span class="caption-text">Trainer</span></p>
+                    </a>
+                </li></ul>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../trainer/metric/">Metric</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../trainer/progress/">Progress</a>
+                  </li>
+              </ul>
+                <ul><li>
                     <a href="../../utility/" style="padding: 0; font-size: inherit; line-height: inherit">
               <p class="caption"><span class="caption-text">Utility</span></p>
                     </a>
@@ -222,7 +233,7 @@
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">EncoderPoolerArgs</span><span class="p">()</span><span class="o">.</span><span class="n">fns</span><span class="p">[</span><span class="n">form</span><span class="p">](</span><span class="n">embed</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">embed</span> <span class="ow">in</span> <span class="p">(</span>
-                <span class="n">encodes</span><span class="o">.</span><span class="n">embeds</span>
+                <span class="nb">list</span><span class="p">(</span><span class="n">encodes</span><span class="o">.</span><span class="n">embeds</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">form</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;sent_cls&quot;</span><span class="p">,</span> <span class="s2">&quot;sent_mean&quot;</span><span class="p">]</span>
                 <span class="k">else</span> <span class="n">EncoderPooler</span><span class="o">.</span><span class="n">_extract_embed_spans</span><span class="p">(</span><span class="n">encodes</span><span class="p">,</span> <span class="n">extract_spans</span><span class="p">)</span>
             <span class="p">)</span>
@@ -323,7 +334,7 @@
     <span class="k">return</span> <span class="p">[</span>
         <span class="n">EncoderPoolerArgs</span><span class="p">()</span><span class="o">.</span><span class="n">fns</span><span class="p">[</span><span class="n">form</span><span class="p">](</span><span class="n">embed</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">embed</span> <span class="ow">in</span> <span class="p">(</span>
-            <span class="n">encodes</span><span class="o">.</span><span class="n">embeds</span>
+            <span class="nb">list</span><span class="p">(</span><span class="n">encodes</span><span class="o">.</span><span class="n">embeds</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">form</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;sent_cls&quot;</span><span class="p">,</span> <span class="s2">&quot;sent_mean&quot;</span><span class="p">]</span>
             <span class="k">else</span> <span class="n">EncoderPooler</span><span class="o">.</span><span class="n">_extract_embed_spans</span><span class="p">(</span><span class="n">encodes</span><span class="p">,</span> <span class="n">extract_spans</span><span class="p">)</span>
         <span class="p">)</span>

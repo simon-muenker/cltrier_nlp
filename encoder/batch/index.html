@@ -78,6 +78,17 @@
                   </li>
               </ul>
                 <ul><li>
+                    <a href="../../trainer/" style="padding: 0; font-size: inherit; line-height: inherit">
+              <p class="caption"><span class="caption-text">Trainer</span></p>
+                    </a>
+                </li></ul>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../trainer/metric/">Metric</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../trainer/progress/">Progress</a>
+                  </li>
+              </ul>
+                <ul><li>
                     <a href="../../utility/" style="padding: 0; font-size: inherit; line-height: inherit">
               <p class="caption"><span class="caption-text">Utility</span></p>
                     </a>
@@ -177,7 +188,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">embeds</span><span class="p">:</span> <span class="n">utility</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Batch</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span>
+    <span class="n">embeds</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">utility</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Batch</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]]</span>
     <span class="n">token</span><span class="p">:</span> <span class="n">utility</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Batch</span><span class="p">[</span><span class="n">utility</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Tokens</span><span class="p">]</span>
 
     <span class="n">input_ids</span><span class="p">:</span> <span class="n">utility</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Batch</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
