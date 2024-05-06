@@ -55,7 +55,7 @@ class EncoderPooler:
         return [
             EncoderPoolerArgs().fns[form](embed)
             for embed in (
-                encodes.embeds
+                list(encodes.embeds)
                 if form in ["sent_cls", "sent_mean"]
                 else EncoderPooler._extract_embed_spans(encodes, extract_spans)
             )

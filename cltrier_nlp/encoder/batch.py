@@ -10,7 +10,7 @@ class EncoderBatch(pydantic.BaseModel):
     """
 
     """
-    embeds: utility.types.Batch[torch.Tensor]
+    embeds: typing.Union[torch.Tensor, utility.types.Batch[torch.Tensor]]
     token: utility.types.Batch[utility.types.Tokens]
 
     input_ids: utility.types.Batch[typing.List[int]]

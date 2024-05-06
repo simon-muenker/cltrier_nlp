@@ -144,7 +144,7 @@ class Corpus(pydantic.BaseModel):
             sentences=(
                 subset := [sent for sent in self.sentences if sent.language == language]
             ),
-            raw=" ".join([sent.raw for sent in subset]),
+            raw=" ".join([sent.raw for sent in subset]),  # type: ignore[has-type]
         )
 
     def generate_ngrams(self, n: int) -> utility.types.NGrams:

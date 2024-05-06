@@ -67,15 +67,12 @@ class Encoder(torch.nn.Module):
         """
         return EncoderBatch(
             **(encoding := self.tokenizer(batch, padding=True, **self.args.tokenizer)),
-            **{
-                "embeds": self.forward(
-                    torch.tensor(encoding["input_ids"], device=self.args.device).long(),
-                    torch.tensor(encoding["attention_mask"], device=self.args.device).short(),
-                ),
-                "token": [self.ids_to_tokens(ids) for ids in encoding["input_ids"]],
-                "unpad": unpad,
-            }
-
+            embeds=self.forward(
+                torch.tensor(encoding["input_ids"], device=self.args.device).long(),
+                torch.tensor(encoding["attention_mask"], device=self.args.device).short(),
+            ),
+            token=[self.ids_to_tokens(ids) for ids in encoding["input_ids"]],
+            unpad=unpad,
         )
 
     def forward(self, ids: torch.Tensor, masks: torch.Tensor) -> torch.Tensor:
