@@ -38,3 +38,4 @@ clean:
 	rm -rf ./build
 	rm -rf ./docs
 	rm -rf ./site
+	rm -rf ./dist
