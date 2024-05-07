@@ -59,3 +59,8 @@ poetry run pre-commit run --all-files
 │   └── gen_docs_pages.py       <- automatic doc generation based on docstrings
 │
 ```
+
+## Resources
+
+- Project Template (Data Science): <https://github.com/drivendata/cookiecutter-data-science>
+- Project Template (Poetry): <https://github.com/fpgmaas/cookiecutter-poetry>
