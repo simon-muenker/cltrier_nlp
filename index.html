@@ -59,6 +59,12 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#project-structure">Project Structure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#todos">ToDos</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#resources">Resources</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#sitemap">Sitemap</a>
     </li>
     </ul>
@@ -160,6 +166,44 @@ poetry run pre-commit install
 <h3 id="linting">Linting</h3>
 <pre><code class="language-bash">poetry run pre-commit run --all-files
 </code></pre>
+<h2 id="project-structure">Project Structure</h2>
+<pre><code>│ 
+├── Makefile                    &lt;- Makefile containing development targets
+├── README.md                   &lt;- top-level README
+├── pyproject.toml              &lt;- package-level (poetry) configuration
+├── mkdocs.yaml                 &lt;- documentation configuration
+├── .pre-commit-config.yaml     &lt;- git pre-commit actions
+│
+├── cltrier_nlp                 &lt;- root source
+│   └── corpus                  &lt;- nltk inspired corpus module
+│   └── encoder                 &lt;- huggingface auto model wrapper
+│   └── trainer                 &lt;- pytorch training algorithm
+│   └── functional              &lt;- generic helper functions
+│   └── utility                 &lt;- utility classes and types
+│
+├── tests                       &lt;- unittests
+│
+├── examples                    &lt;- usage/application examples
+│
+├── scripts                 &lt;   - additional package building scripts
+│   └── gen_docs_pages.py       &lt;- automatic doc generation based on docstrings
+│
+</code></pre>
+<h2 id="todos">ToDos</h2>
+<ul>
+<li>[ ] tests: add encoder testing</li>
+<li>[ ] tests: add functional testing</li>
+<li>[ ] tests: add utility testing</li>
+<li>[ ] cltrier_nlp:trainer: modernize and refactor</li>
+<li>[ ] examples:application: encoder with manifold reduction</li>
+<li>[ ] examples:application: encoder with unsupervised clustering</li>
+<li>[ ] examples:application: training pipeline with pytorch MLP</li>
+</ul>
+<h2 id="resources">Resources</h2>
+<ul>
+<li>Project Template (Data Science): <a href="https://github.com/drivendata/cookiecutter-data-science">https://github.com/drivendata/cookiecutter-data-science</a></li>
+<li>Project Template (Poetry): <a href="https://github.com/fpgmaas/cookiecutter-poetry">https://github.com/fpgmaas/cookiecutter-poetry</a></li>
+</ul>
 <h2 id="sitemap">Sitemap</h2>
 <ul>
 <li><a href="corpus/">corpus</a><ul>
@@ -235,5 +279,5 @@ poetry run pre-commit install
 
 <!--
 MkDocs version : 1.6.0
-Build Date UTC : 2024-05-06 11:42:17.480531+00:00
+Build Date UTC : 2024-05-07 13:43:32.790507+00:00
 -->
