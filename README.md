@@ -60,6 +60,16 @@ poetry run pre-commit run --all-files
 │
 ```
 
+## ToDos
+
+- [ ] tests: add encoder testing
+- [ ] tests: add functional testing
+- [ ] tests: add utility testing
+- [ ] cltrier_nlp:trainer: modernize and refactor
+- [ ] examples:application: encoder with manifold reduction
+- [ ] examples:application: encoder with unsupervised clustering
+- [ ] examples:application: training pipeline with pytorch MLP
+
 ## Resources
 
 - Project Template (Data Science): <https://github.com/drivendata/cookiecutter-data-science>
