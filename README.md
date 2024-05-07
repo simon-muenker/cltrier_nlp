@@ -33,3 +33,29 @@ poetry run pytest
 ```bash
 poetry run pre-commit run --all-files
 ```
+
+## Project Structure
+
+```   
+│ 
+├── Makefile                    <- Makefile containing development targets
+├── README.md                   <- top-level README
+├── pyproject.toml              <- package-level (poetry) configuration
+├── mkdocs.yaml                 <- documentation configuration
+├── .pre-commit-config.yaml     <- git pre-commit actions
+│
+├── cltrier_nlp                 <- root source
+│   └── corpus                  <- nltk inspired corpus module
+│   └── encoder                 <- huggingface auto model wrapper
+│   └── trainer                 <- pytorch training algorithm
+│   └── functional              <- generic helper functions
+│   └── utility                 <- utility classes and types
+│
+├── tests                       <- unittests
+│
+├── examples                    <- usage/application examples
+│
+├── scripts                 <   - additional package building scripts
+│   └── gen_docs_pages.py       <- automatic doc generation based on docstrings
+│
+```
