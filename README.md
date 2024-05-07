@@ -55,7 +55,7 @@ poetry run pre-commit run --all-files
 │
 ├── examples                    <- usage/application examples
 │
-├── scripts                 <   - additional package building scripts
+├── scripts                     <- additional package building scripts
 │   └── gen_docs_pages.py       <- automatic doc generation based on docstrings
 │
 ```
