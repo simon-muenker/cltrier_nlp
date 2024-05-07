@@ -22,10 +22,13 @@ test:
 deploy:
 	@poetry build
 	@poetry publish
+	deploy_docs
+
+.PHONY: deploy_docs
+deploy_docs:
 	mkdir -p ./docs
 	@poetry run mkdocs gh-deploy
 	$(MAKE) clean
-
 
 .PHONY: docs
 docs:
