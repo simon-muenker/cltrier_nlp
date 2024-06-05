@@ -19,7 +19,7 @@ classifiers = [
 packages = [{ include = "cltrier_nlp" }]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 pydantic = "^2.7.1"
 nltk = "^3.8.1"
 transformers = "^4.40.1"
@@ -47,6 +47,7 @@ pandas = "^2.2.2"
 scikit-learn = "^1.4.2"
 matplotlib = "^3.8.4"
 seaborn = "^0.13.2"
+plotly = "^5.22.0"
 
 [tool.pytest.ini_options]
 log_cli = true
